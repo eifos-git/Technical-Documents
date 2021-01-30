@@ -8,7 +8,7 @@ For given network, say MAINNET or TESTNET we need to first create a user account
 In the blockchain world, account creation services are nicknamed as faucets. They create unique Network Address Identifiers.
 {% endhint %}
 
-To create a Peerplays MAINNET account, the easiest way is to use the GUI wallet available to download from [Github](https://github.com/peerplays-network/peerplays-core-gui/releases).
+To create a Peerplays MAINNET account, the easiest way is to use the GUI wallet available to download from [Github](https://github.com/peerplays-network/peerplays-core-gui/releases).  The GUI wallet will use a faucet to create an account for you using the username and password you've chosen.
 
 Creating user in Peerplays GUI wallet is self explanatory.
 
@@ -18,7 +18,7 @@ We can do this from the `cli_wallet` & this includes multiple steps.
 
 1. Buy some PPY \(or ask your friendly whale!\) from an exchange
 2. Upgrade your new account to a Life Time Member \(LTM\)
-3. register and update the witness to the network
+3. Register and update the witness to the network
 
 For the first step, we need to access the newly created Peerplays account from the cli\_wallet. Instructions are given below:.
 
@@ -28,7 +28,7 @@ For the first step, we need to access the newly created Peerplays account from t
 
 ## CLI Wallet Setup
 
-In it's own terminal window, start the command-line wallet `cli_wallet`:
+In its own terminal window, start the command-line wallet `cli_wallet`:
 
 ```text
 ./programs/cli_wallet/cli_wallet
@@ -47,17 +47,24 @@ To set your initial password to `password` use:
 
 ### Get Owner and Active Keys
 
-To generate your owner and active keys use the `get_private_key_from_password` command:
+To derive your owner and active keys use the `get_private_key_from_password` command:
 
 ```text
-get_private_key_from_password your_witness_username active the_key_you_received_from_the_faucet
+get_private_key_from_password your_witness_username owner the_password_youve_used_to_register_your_account
+get_private_key_from_password your_witness_username active the_password_youve_used_to_register_your_account
 ```
 
-This will return an array, with your active key, in the form `["PPYxxx", "xxxx"].`
+This will return an array key pair in the form `["PPYxxx", "xxxx"].`
+The first string starting with with PPY is the public key, the second one is the private key.
+You'll now have 2 sets of keys, one for the owner key(pair) and one for the active key(pair)
+
+The owner permission has administrative powers over the whole account and should be considered for ‘backup’ strategies.
+The active permission allows access to access funds and some account settings, but cannot change the owner permission and is thus considered the 'online' permissions.
+
 
 ### Import Keys into your CLI Wallet
 
-To import your keys, generated in the previous step, into your CLI wallet do the following:
+To import your keys, derived from the password in the previous step, into your CLI wallet do the following:
 
 1. Use the second value in the array for the private key.
 2. Make sure your username is in quotes. 
@@ -71,15 +78,20 @@ To import your keys, generated in the previous step, into your CLI wallet do the
 import_key "your_witness_username" xxxx
 ```
 
+This command returns `true` when succesful.
+To check the keys that have been imported into the wallet you can use the command `dump_private_keys`
+This should show both key pairs.
+
 ### Upgrade Your Account to Lifetime Membership
 
 ```text
 upgrade_account your_witness_username true
 ```
+The current (one-time) cost to run this command is 5 PPY.
 
 ### Create Yourself as a Witness
 
-Make sure your URL is in quotes. 
+Make sure your URL is in quotes and starts with http:// or https://
 
 {% hint style="warning" %}
 **Note**: Substitute `"url"` with your witness URL.
@@ -88,26 +100,47 @@ Make sure your URL is in quotes.
 ```text
 create_witness your_witness_username "url" true
 ```
+The current (one-time) cost to run this command is 8 PPY.
 
-This will return your `block_signing_key`
+This command, when successful, will return an object which also contains your public `block_signing_key` and in the background it will also import the private block_signing_key into your wallet.
+
+example:
+```
+{
+  "ref_block_num": 3896,
+  "ref_block_prefix": 2300171430,
+  "expiration": "2021-01-30T19:33:15",
+  "operations": [[
+      20,{
+        "fee": {
+          "amount": 800000,
+          "asset_id": "1.3.0"
+        },
+        "witness_account": "1.2.xxxxx",
+        "url": "https://yourawesomewitnesssite.com",
+        "block_signing_key": "PPY6ZkyeoVHM6WHMyh6u1hpEMtM7y22quD7o6bohdaDDGj8UmXbNE",
+        "initial_secret": "081a2ff5e24d19fe87167344e1d64a0fea20db9b"
+      }
+    ]
+  ],
+  "extensions": [],
+  "signatures": [
+    "1f7b47e5f404121834ccaed4e17de10f22a9b060fda55a2a8f00114545f2b3020175d44b96724342a0fa4c8cc5a5f4f5f13fa4cc40d3f326dba033877650f32ed2"
+  ]
+}
+```
 
 {% hint style="danger" %}
 **Important**: Be sure to take note of  your `block_signing_key`
 {% endhint %}
 
-Run the following command using your `block_signing_key` from the previous step:
+Run the following command using your public `block_signing_key` from the previous step:
 
 ```text
 get_private_key block_signing_key
 ```
 
-Compare this result to the three pairs of keys generated when you run the following command:
-
-```text
-dump_private_keys
-```
-
-One of the pairs should match your `block_signing_key` , this is the one you'll use for future operations.
+To double-check we can run `dump_private_keys` again which will now show three permission key pairs imported into the wallet. Owner, Active and Block_signing
 
 ### Get Your Witness ID
 
@@ -118,12 +151,12 @@ One of the pairs should match your `block_signing_key` , this is the one you'll 
 ```text
 get_witness username 
 ```
-
-Take note of the `id` for the next step.
+This will return some info about your witness account including its id which will be in `1.6.xxx` form
+Take note of this `id` for the next step.
 
 ### Modify Your Witness Node Configuration
 
-Next the Witness node configuration file, `witness_node_data_dir/config.ini`, needs to be modified to include your Witness ID \(from the previous step\), and your private key pair.
+Next the Witness node configuration file, `witness_node_data_dir/config.ini`, needs to be modified to include your Witness ID \(from the previous step\), and your private block signing key pair.
 
 {% hint style="warning" %}
 **Note**: Substitute `"your_witness_id"` with your Witness ID. 
@@ -132,15 +165,15 @@ Don't forget to enclose in quotes!
 {% endhint %}
 
 {% hint style="warning" %}
-**Note**: Substitute `"block_signing_key"` with your block signing.
+**Note**: Substitute `"block_signing_key"` with your block signing key pair.
 
 Substitute `"private_key_for_your_block_signing_key"` with your private key.
 
 Don't forget to enclose in quotes!
 {% endhint %}
 
+edit the file witness_node_data_dir/config.ini
 ```text
-vim witness_node_data_dir/config.ini
 
 witness-id = "your_witness_id"
 private-key = ["block_signing_key","private_key_for_your_block_signing_key"]
