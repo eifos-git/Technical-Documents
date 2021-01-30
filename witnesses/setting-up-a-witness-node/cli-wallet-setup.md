@@ -91,7 +91,7 @@ upgrade_account your_witness_username true
 ```
 The current (one-time) cost to run this command is 5 PPY.
 
-### Create Yourself as a Witness
+### Register Yourself as a Witness
 
 Make sure your URL is in quotes and starts with http:// or https://
 
