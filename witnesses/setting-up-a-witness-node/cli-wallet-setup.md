@@ -1,6 +1,6 @@
 # Creating a witness account
 
-For given network, say MAINNET or TESTNET we need to first create a user account using a faucet. 
+For a given network, say MAINNET or TESTNET we need to first create a user account using a faucet. 
 
 {% hint style="info" %}
 **Faucet ?!**
@@ -10,7 +10,9 @@ In the blockchain world, account creation services are nicknamed as faucets. The
 
 To create a Peerplays MAINNET account, the easiest way is to use the GUI wallet available to download from [Github](https://github.com/peerplays-network/peerplays-core-gui/releases).  The GUI wallet will use a faucet to create an account for you using the username and password you've chosen.
 
-Creating user in Peerplays GUI wallet is self explanatory.
+Creating a user in the Peerplays GUI wallet is self explanatory.
+
+For the Peerplays TESTNET there may not always be a faucet up and running. In that case ask one of the current witnesses to get you started.
 
 #### 2. Upgrading the Peerplays account to a witness account
 
@@ -55,11 +57,11 @@ get_private_key_from_password your_witness_username active the_password_youve_us
 ```
 
 This will return an array key pair in the form `["PPYxxx", "xxxx"].`
-The first string starting with with PPY is the public key, the second one is the private key.
+The first string starting with PPY is the public key, the second one is the private key.
 You'll now have 2 sets of keys, one for the owner key(pair) and one for the active key(pair)
 
 The owner permission has administrative powers over the whole account and should be considered for ‘backup’ strategies.
-The active permission allows access to access funds and some account settings, but cannot change the owner permission and is thus considered the 'online' permissions.
+The active permission allows to access funds and some account settings, but cannot change the owner permission and is thus considered the 'online' permission.
 
 
 ### Import Keys into your CLI Wallet
