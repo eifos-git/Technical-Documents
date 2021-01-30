@@ -120,7 +120,7 @@ example:
         },
         "witness_account": "1.2.xxxxx",
         "url": "https://yourawesomewitnesssite.com",
-        "block_signing_key": "PPY6ZkyeoVHM6WHMyh6u1hpEMtM7y22quD7o6bohdaDDGj8UmXbNE",
+        "block_signing_key": "PPYxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
         "initial_secret": "081a2ff5e24d19fe87167344e1d64a0fea20db9b"
       }
     ]
