@@ -176,7 +176,6 @@ Don't forget to enclose in quotes!
 
 edit the file witness_node_data_dir/config.ini
 ```text
-
 witness-id = "your_witness_id"
 private-key = ["block_signing_key","private_key_for_your_block_signing_key"]
 ```
