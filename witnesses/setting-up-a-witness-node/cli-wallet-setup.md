@@ -47,6 +47,7 @@ To set your initial wallet password to `password` use:
 **Tip**: A list of CLI wallet commands is available here:[ ](https://github.com/PBSA/peerplays/blob/master/libraries/wallet/include/graphene/wallet/api_documentation.hpp)[CLI Wallet commands](https://github.com/PBSA/peerplays/blob/master/libraries/wallet/include/graphene/wallet/api_documentation.hpp)
 {% endhint %}
 
+
 ### Get Owner and Active Keys
 
 To derive your owner and active keys use the `get_private_key_from_password` command:
@@ -84,12 +85,14 @@ This command returns `true` when succesful.
 To check the keys that have been imported into the wallet you can use the command `dump_private_keys`
 This should show both key pairs.
 
+
 ### Upgrade Your Account to Lifetime Membership
 
 ```text
 upgrade_account your_witness_username true
 ```
 The current (one-time) cost to run this command is 5 PPY.
+
 
 ### Register Yourself as a Witness
 
@@ -144,6 +147,7 @@ get_private_key block_signing_key
 
 To double-check we can run `dump_private_keys` again which will now show three permission key pairs imported into the wallet. Owner, Active and Block_signing
 
+
 ### Get Your Witness ID
 
 {% hint style="warning" %}
@@ -155,6 +159,7 @@ get_witness username
 ```
 This will return some info about your witness account including its id which will be in `1.6.xxx` form
 Take note of this `id` for the next step.
+
 
 ### Modify Your Witness Node Configuration
 
@@ -180,6 +185,7 @@ witness-id = "your_witness_id"
 private-key = ["block_signing_key","private_key_for_your_block_signing_key"]
 ```
 
+
 ### Start Your Witness Node
 
 ```text
@@ -196,6 +202,7 @@ If your Witness node fails to start, try again with these flags:
 ./programs/witness_node/witness_node --resync --replay
 ```
 
+
 ### Vote For Yourself
 
 All Witnesses have to be voted in, so start by voting for yourself!
@@ -203,6 +210,7 @@ All Witnesses have to be voted in, so start by voting for yourself!
 ```text
 vote_for_witness your_witness_account your_witness_account true true
 ```
+
 
 ### Ask to be Voted In
 
