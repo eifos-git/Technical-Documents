@@ -36,7 +36,7 @@ In its own terminal window, start the command-line wallet `cli_wallet`:
 ./programs/cli_wallet/cli_wallet
 ```
 
-To set your initial password to `password` use:
+To set your initial wallet password to `password` use:
 
 ```text
 >>> set_password password
